@@ -1,12 +1,39 @@
-﻿<Window x:Class="Twitch.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Twitch"
+        xmlns:Models="clr-namespace:Twitch.Models" x:Class="Twitch.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="350" Width="525" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="streamViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Stream}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource streamViewSource}" >
+        <ListView ScrollViewer.CanContentScroll="False" x:Name="streamListView" ItemsSource="{Binding}" AlternationCount="1">
+            <ListView.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Canvas Height="460" >
+                        
+                        <TextBlock Canvas.Top="30" Canvas.Left="49" FontFamily="Helvetica Neue" FontSize="14">
+                            <Run Text="{Binding channel.name}" ></Run>
+                            <Run Text="(" Foreground="#FF706A7C"></Run>
+                            <Run Text="{Binding viewers}" Foreground="#FF706A7C"></Run>
+                            <Run Text=") " Foreground="#FF706A7C"></Run>
+                            <Run Text="{Binding channel.status}" ></Run>
+                        </TextBlock>
+                        
+                        <Image Canvas.Top="55" Canvas.Left="49" SnapsToDevicePixels="True" Source="{Binding preview.large}" VerticalAlignment="Center"/>
+                    </Canvas>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Window>
