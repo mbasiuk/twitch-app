@@ -50,14 +50,28 @@
                             <Run Text="{Binding channel.status}" ></Run>
                 </TextBlock>
 
-                <Image Canvas.Top="55" SnapsToDevicePixels="True" Source="{Binding preview.small}" VerticalAlignment="Center"/>
+                <Image Canvas.Left="1" Canvas.Top="55" SnapsToDevicePixels="True" Source="{Binding preview.small}" VerticalAlignment="Center">
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Canvas.Left)" To="5"  Duration="0:0:0.200" AutoReverse="True" >
+                                        <DoubleAnimation.EasingFunction>
+                                            <ExponentialEase Exponent="3" EasingMode="EaseInOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
             </Canvas>
         </DataTemplate>
 
     </Window.Resources>
     <Grid DataContext="{StaticResource streamViewSource}" >
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{StaticResource medium}" >
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{StaticResource small}" >
             </ItemsControl>
         </ScrollViewer>
     </Grid>
