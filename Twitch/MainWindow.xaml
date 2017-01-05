@@ -11,29 +11,25 @@
         <CollectionViewSource x:Key="streamViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Stream}, CreateList=True}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource streamViewSource}" >
-        <ListView ScrollViewer.CanContentScroll="False" x:Name="streamListView" ItemsSource="{Binding}" AlternationCount="1">
-            <ListView.ItemContainerStyle>
-                <Style>
-                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Canvas Height="460" >
-                        
-                        <TextBlock Canvas.Top="30" Canvas.Left="49" FontFamily="Helvetica Neue" FontSize="14">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Canvas Height="460" Width="640" >
+                            
+                            <TextBlock Canvas.Top="30" Canvas.Left="49" >
                             <Run Text="{Binding channel.name}" ></Run>
                             <Run Text="(" Foreground="#FF706A7C"></Run>
                             <Run Text="{Binding viewers}" Foreground="#FF706A7C"></Run>
                             <Run Text=") " Foreground="#FF706A7C"></Run>
                             <Run Text="{Binding channel.status}" ></Run>
-                        </TextBlock>
-                        
-                        <Image Canvas.Top="55" Canvas.Left="49" SnapsToDevicePixels="True" Source="{Binding preview.large}" VerticalAlignment="Center"/>
-                    </Canvas>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </TextBlock>
+                            
+                            <Image Canvas.Top="55" Canvas.Left="49" SnapsToDevicePixels="True" Source="{Binding preview.large}" VerticalAlignment="Center"/>
+                        </Canvas>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>

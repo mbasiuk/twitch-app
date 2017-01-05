@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Twitch.Settings;
 
@@ -39,6 +41,11 @@ namespace Twitch.Settings
         public const string ClientIdHeader = "Client-ID";
         public const string ClientId = "7bjbjzp3jzq3zc2n55epfoih9s54zn";
     }
+
+    public class StreamsRefresher
+    {
+        public const int IntervalInSeconds = 10;
+    }
 }
 
 namespace Twitch.Models.Loaders
@@ -46,7 +53,10 @@ namespace Twitch.Models.Loaders
     public class Dota2
     {
         const string ApiUrl = "https://api.twitch.tv/kraken/streams?limit=20&offset=0&game=Dota+2&on_site=1";
-        public static StreamCollection Get()
+
+        System.Windows.Threading.DispatcherTimer timer;
+
+        public StreamCollection Get()
         {
             using (var client = new System.Net.WebClient())
             {
@@ -57,10 +67,10 @@ namespace Twitch.Models.Loaders
                 StreamCollection gameJSON = serializer.Deserialize<StreamCollection>(response);
                 return gameJSON;
             }
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public async static Task<StreamCollection> GetAsync()
+        public async Task<StreamCollection> GetAsync()
         {
             using (var client = new System.Net.WebClient())
             {
@@ -71,6 +81,26 @@ namespace Twitch.Models.Loaders
                 StreamCollection gameJSON = serializer.Deserialize<StreamCollection>(response);
                 return gameJSON;
             }
+        }
+
+        internal void UpdateEvery(StreamCollection streamCollection, int intervalInSeconds, ICollectionView view)
+        {
+            if (timer != null)
+            {
+                throw new NotImplementedException();
+            }
+
+            timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, intervalInSeconds);
+            timer.Tick += (a, b) =>
+            {
+                System.Diagnostics.Trace.WriteLine("tick start");
+                streamCollection.streams.Clear();
+                streamCollection.streams.AddRange(Get().streams);
+                System.Diagnostics.Trace.WriteLine("tick end");
+                view.Refresh();
+            };
+            timer.Start();
         }
     }
 }

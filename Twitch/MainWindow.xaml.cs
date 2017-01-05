@@ -9,16 +9,22 @@ namespace Twitch
     {
         public MainWindow()
         {
-            InitializeComponent();                       
+            InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            System.Windows.Data.CollectionViewSource streamViewSource = ((System.Windows.Data.CollectionViewSource)(FindResource("streamViewSource")));
+            var loader = new Models.Loaders.Dota2();
+            var streamCollection = loader.Get();
+                        
+            streamViewSource.Source = streamCollection.streams;
+            loader.UpdateEvery(streamCollection, Settings.StreamsRefresher.IntervalInSeconds, streamViewSource.View);            
+        }
 
-            System.Windows.Data.CollectionViewSource streamViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("streamViewSource")));
-            streamViewSource.Source = Models.Loaders.Dota2.Get().streams;
-            // Load data by setting the CollectionViewSource.Source property:
-            // streamViewSource.Source = [generic data source]
+        private void OnTick()
+        {
+            
         }
     }
 }
