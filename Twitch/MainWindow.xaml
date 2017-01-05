@@ -9,26 +9,55 @@
         Title="Twitch Streams" Height="350" Width="525" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="streamViewSource" d:DesignSource="{d:DesignInstance {x:Type Models:Stream}, CreateList=True}"/>
-    </Window.Resources>
-    <Grid DataContext="{StaticResource streamViewSource}" >
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding}" >
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Canvas Height="460" Width="640" >
-                            
-                            <TextBlock Canvas.Top="30" Canvas.Left="49" >
+        <DataTemplate x:Key="large">
+            <Canvas Height="460" Width="640" >
+
+                <TextBlock Canvas.Top="30" >
                             <Run Text="{Binding channel.name}" ></Run>
                             <Run Text="(" Foreground="#FF706A7C"></Run>
                             <Run Text="{Binding viewers}" Foreground="#FF706A7C"></Run>
                             <Run Text=") " Foreground="#FF706A7C"></Run>
                             <Run Text="{Binding channel.status}" ></Run>
-                            </TextBlock>
-                            
-                            <Image Canvas.Top="55" Canvas.Left="49" SnapsToDevicePixels="True" Source="{Binding preview.large}" VerticalAlignment="Center"/>
-                        </Canvas>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                </TextBlock>
+
+                <Image Canvas.Top="55" SnapsToDevicePixels="True" Source="{Binding preview.large}" VerticalAlignment="Center"/>
+            </Canvas>
+        </DataTemplate>
+
+        <DataTemplate x:Key="medium">
+            <Canvas Height="250" Width="320" >
+
+                <TextBlock Canvas.Top="30" >
+                            <Run Text="{Binding channel.name}" ></Run>
+                            <Run Text="(" Foreground="#FF706A7C"></Run>
+                            <Run Text="{Binding viewers}" Foreground="#FF706A7C"></Run>
+                            <Run Text=") " Foreground="#FF706A7C"></Run>
+                            <Run Text="{Binding channel.status}" ></Run>
+                </TextBlock>
+
+                <Image Canvas.Top="55" SnapsToDevicePixels="True" Source="{Binding preview.medium}" VerticalAlignment="Center"/>
+            </Canvas>
+        </DataTemplate>
+
+        <DataTemplate x:Key="small">
+            <Canvas Height="100" Width="400" >
+
+                <TextBlock Canvas.Top="30" >
+                            <Run Text="{Binding channel.name}" ></Run>
+                            <Run Text="(" Foreground="#FF706A7C"></Run>
+                            <Run Text="{Binding viewers}" Foreground="#FF706A7C"></Run>
+                            <Run Text=") " Foreground="#FF706A7C"></Run>
+                            <Run Text="{Binding channel.status}" ></Run>
+                </TextBlock>
+
+                <Image Canvas.Top="55" SnapsToDevicePixels="True" Source="{Binding preview.small}" VerticalAlignment="Center"/>
+            </Canvas>
+        </DataTemplate>
+
+    </Window.Resources>
+    <Grid DataContext="{StaticResource streamViewSource}" >
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{StaticResource medium}" >
             </ItemsControl>
         </ScrollViewer>
     </Grid>
