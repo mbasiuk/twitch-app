@@ -1,3 +1,7 @@
+# warning 
+---------
+at now twitch break API definition and disable anonymous request, so this brake the app. So there is no much sence to from this product or any other product that use Twitch API. Unless you are glad to spend your time and effort to the hole. For my opinion twitch should not call his `web app` as API, becouse this violate the main idea of API - automated sharing the data, becouse the main characteristic of API is how stable they are. Not stable API should not even call API.
+
 twitch
 ------
 Get list of `Dota 2` streams from command line and open `twitch` `Dota 2` stream from command line
